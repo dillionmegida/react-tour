@@ -4,7 +4,7 @@ import type { Step } from '../types/Step';
 type Args = {
   currentStep: Step;
   ref: React.RefObject<HTMLDivElement | null>;
-  nextRef: React.RefObject<HTMLButtonElement | null>;
+  onNext:() => void;
 };
 
 function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
@@ -19,8 +19,8 @@ function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
   };
 }
 
-export default function useHighlightPopup({ currentStep, ref }: Args) {
-  const { target } = currentStep;
+export default function useHighlightPopup({ currentStep, ref , onNext}: Args) {
+  const { target, nextOn } = currentStep;
 
   useEffect(() => {
     const targetElement: HTMLElement | null = document.querySelector(target);
@@ -28,6 +28,10 @@ export default function useHighlightPopup({ currentStep, ref }: Args) {
 
     if (!ref.current) return;
     if (!ref.current.parentElement) return;
+
+    if (nextOn) {
+      targetElement.addEventListener(nextOn, onNext);
+    }
 
     const OUTLINE_WIDTH = 2;
     const OUTLINE_OFFSET = 6;
@@ -60,6 +64,10 @@ export default function useHighlightPopup({ currentStep, ref }: Args) {
     return () => {
       targetElement.style.removeProperty('outline');
       targetElement.style.removeProperty('outline-offset');
+      
+      if (nextOn) {
+        targetElement.removeEventListener(nextOn, onNext);
+      }
       // ref.current!.remove();
     };
   }, [currentStep.target]);

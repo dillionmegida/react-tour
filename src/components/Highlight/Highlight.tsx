@@ -15,10 +15,6 @@ export default function Highlight({ steps, onFinish }: Props) {
 
   const currentStep = steps[currentStepIndex];
 
-  const handlePrevious = () => {
-    setCurrentStepIndex((prev) => prev - 1);
-  };
-
   const handleNext = () => {
     setCurrentStepIndex((prev) => prev + 1);
     if (currentStepIndex === steps.length - 1) {
@@ -28,7 +24,7 @@ export default function Highlight({ steps, onFinish }: Props) {
 
   const ref = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
-  useHighlightPopup({ currentStep, ref, nextRef });
+  useHighlightPopup({ currentStep, ref, onNext: handleNext });
 
   return (
     <div
@@ -45,17 +41,11 @@ export default function Highlight({ steps, onFinish }: Props) {
       <div className="highlight" ref={ref}></div>
       <div className="highlight-content">{currentStep.content}</div>
       <div className="highlight-actions">
-        {currentStepIndex > 0 && (
-          <button
-            className="highlight-prev-btn"
-            onClick={handlePrevious}
-            ref={nextRef}
-          >
-            Previous
-          </button>
-        )}
         <button
-          className="highlight-next-btn"
+          className={
+            'highlight-next-btn ' + (currentStep.nextOn ? 'disabled' : '')
+          }
+          disabled={!!currentStep.nextOn}
           onClick={handleNext}
           ref={nextRef}
         >
