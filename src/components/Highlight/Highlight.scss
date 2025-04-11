@@ -1,0 +1,42 @@
+.highlight-wrapper {
+  visibility: hidden;
+  position: absolute;
+  background-color: gray;
+  height: auto;
+  top: 0;
+  left: 0;
+  transition: translate 300ms ease, opacity 300ms ease, width 300ms ease;
+  opacity: 0;
+  border: 2px solid darkorchid;
+  max-width: 400px;
+  width: 100%;
+}
+
+.step-info {
+  background-color: rgb(222, 222, 222);
+  padding: 10px;
+}
+
+.highlight-content {
+  padding: 10px;
+  color: white;
+}
+
+.highlight-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  background-color: rgb(61, 61, 61);
+}
+
+.highlight-prev-btn {
+  padding: 5px;
+  background-color: lightcoral;
+}
+
+.highlight-next-btn {
+  padding: 5px;
+  background-color: lightgreen;
+}

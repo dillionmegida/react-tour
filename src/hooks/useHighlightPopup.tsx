@@ -1,0 +1,66 @@
+import React, { useEffect, useRef } from 'react';
+import type { Step } from '../types/Step';
+
+type Args = {
+  currentStep: Step;
+  ref: React.RefObject<HTMLDivElement | null>;
+  nextRef: React.RefObject<HTMLButtonElement | null>;
+};
+
+function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
+  const rect = element.getBoundingClientRect();
+  return {
+    left: rect.left + window.scrollX,
+    top: rect.top + window.scrollY,
+    right: rect.right + window.scrollX,
+    bottom: rect.bottom + window.scrollY,
+    width: rect.width,
+    height: rect.height,
+  };
+}
+
+export default function useHighlightPopup({ currentStep, ref }: Args) {
+  const { target } = currentStep;
+
+  useEffect(() => {
+    const targetElement: HTMLElement | null = document.querySelector(target);
+    if (!targetElement) return;
+
+    if (!ref.current) return;
+    if (!ref.current.parentElement) return;
+
+    const OUTLINE_WIDTH = 2;
+    const OUTLINE_OFFSET = 6;
+
+    targetElement.style.outline = `${OUTLINE_WIDTH}px solid red`;
+    targetElement.style.outlineOffset = `${OUTLINE_OFFSET}px`;
+
+    const rect = getBoundingClientRectRelativeToDocument(targetElement);
+
+    ref.current.parentElement!.style.visibility = 'visible';
+    ref.current.parentElement!.style.opacity = '1';
+    // ref.current.parentElement!.style.width = `${
+    //   rect.width + OUTLINE_WIDTH * 2 + OUTLINE_OFFSET * 2
+    // }px`;
+
+    ref.current.parentElement.style.translate = `${
+      rect.left - OUTLINE_OFFSET - OUTLINE_WIDTH
+    }px ${rect.bottom + OUTLINE_WIDTH * 2 + 10}px`;
+
+    // targetElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' })
+
+    // ref.current.scrollIntoView();
+    // window.scrollTo({
+    //   top: rect.bottom + OUTLINE_WIDTH * 2 + 10,
+    //   behavior: 'smooth',
+    // });
+
+    // document.body.appendChild(ref.current);
+
+    return () => {
+      targetElement.style.removeProperty('outline');
+      targetElement.style.removeProperty('outline-offset');
+      // ref.current!.remove();
+    };
+  }, [currentStep.target]);
+}
