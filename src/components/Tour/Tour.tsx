@@ -6,9 +6,13 @@ import {
   setLocalStorage,
   deleteLocalStorage,
 } from '../../lib/utils';
-import { getActiveStepKey, TOUR_CATEGORIES_STORAGE_KEY } from '../../lib/constants';
+import {
+  getActiveStepKey,
+  TOUR_CATEGORIES_STORAGE_KEY,
+} from '../../lib/constants';
 import { CategoryStatusObj } from '../../types';
 import { Backdrop } from '../';
+import { ErrorBoundary } from '../';
 
 type Props = {
   stepObj: StepObj;
@@ -59,17 +63,17 @@ export function Tour({ stepObj }: Props) {
     setActiveCategoryIndex(activeCategoryIndex + 1);
   };
 
-
   return activeCategory ? (
-    <>
-    <Backdrop />
-    <TourCategory
-      category={activeCategory}
-      key={activeCategory}
-      steps={stepObj[activeCategory]}
-      onFinish={onFinishCategory}
-    />
-    </>
+    <ErrorBoundary readableMessage="Something went wrong with the Tour component">
+      <>
+        <Backdrop />
+        <TourCategory
+          category={activeCategory}
+          key={activeCategory}
+          steps={stepObj[activeCategory]}
+          onFinish={onFinishCategory}
+        />
+      </>
+    </ErrorBoundary>
   ) : null;
 }
-
