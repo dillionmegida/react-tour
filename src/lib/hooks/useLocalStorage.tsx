@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 
 type Props<T> = {
-  method: 'get' | 'set';
   key: string;
-  value: T;
   defaultValue: T;
-};
+} & (
+  | { method: 'get' }
+  | { method: 'set'; value: T }
+);
 
 export default function useLocalStorage<T>(
   props: Props<T>
@@ -16,15 +17,15 @@ export default function useLocalStorage<T>(
     setStoredValue(value);
     localStorage.setItem(props.key, JSON.stringify(value));
   };
-
+  
   useEffect(() => {
     if (props.method === 'get') {
       const value = localStorage.getItem(props.key);
-
+      
       if (!value) {
-        setStoredValue(props.defaultValue);
+        setValue(props.defaultValue);
       } else {
-        setStoredValue(JSON.parse(value));
+        setValue(JSON.parse(value));
       }
     }
   }, [props.key]);

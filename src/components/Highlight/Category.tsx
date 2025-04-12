@@ -2,17 +2,19 @@ import useHighlightPopup from '../../lib/hooks/useHighlightPopup';
 import { useLocalStorage } from '../../lib/hooks';
 import { Step } from '../../types';
 import React, { useRef } from 'react';
+import { capitalize } from '../../lib/utils';
 
 type Props = {
-  steps: Step[]
+  steps: Step[];
   category: string;
   onFinish: () => void;
-}
+};
 
 export default function StepCategory({ steps, category, onFinish }: Props) {
   const [currentStepIndex, setCurrentStepIndex] = useLocalStorage<number>({
     method: 'get',
-    key: category + 'active-step',
+    key: category + '-active-step',
+    defaultValue: 0,
   });
 
   const stepIndex = Number(currentStepIndex) || 0;
@@ -42,7 +44,7 @@ export default function StepCategory({ steps, category, onFinish }: Props) {
     >
       <div className="step-info">
         <span>
-          Step {stepIndex + 1} / {steps.length}
+          {capitalize(category)} - Step {stepIndex + 1} / {steps.length}
         </span>
       </div>
       <div className="highlight" ref={ref}></div>
