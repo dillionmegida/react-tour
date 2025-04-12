@@ -1,1 +1,5 @@
 node_modules
+
+# Vite
+.vite
+dist
