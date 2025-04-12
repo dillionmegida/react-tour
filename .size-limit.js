@@ -2,6 +2,6 @@ module.exports = [
   {
     path: "dist/index.js",
     import: "{ Tour }",
-    limit: "500 ms"
+    limit: "200 ms"
   }
 ]
