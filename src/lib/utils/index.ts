@@ -1,2 +1,2 @@
-export { capitalize } from './string';
+export * from './string';
 export * from './localStorage';

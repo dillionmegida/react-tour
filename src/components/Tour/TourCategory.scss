@@ -1,4 +1,4 @@
-.highlight-wrapper {
+.tour-wrapper {
   visibility: hidden;
   position: absolute;
   background-color: gray;
@@ -12,17 +12,17 @@
   width: 100%;
 }
 
-.step-info {
+.tour-step-info {
   background-color: rgb(222, 222, 222);
   padding: 10px;
 }
 
-.highlight-content {
+.tour-content {
   padding: 10px;
   color: white;
 }
 
-.highlight-actions {
+.tour-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
@@ -31,7 +31,7 @@
   background-color: rgb(61, 61, 61);
 }
 
-.highlight-next-btn {
+.tour-next-btn {
   padding: 5px;
   background-color: lightgreen;
 }

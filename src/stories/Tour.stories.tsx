@@ -1,11 +1,11 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Highlight } from '..';
+import { Tour } from '..';
 import './stories-global.css';
 
 const meta = {
-  title: 'Components/Highlight',
-  component: Highlight,
+  title: 'Components/Tour',
+  component: Tour,
   parameters: {
     layout: 'fullscreen',
   },
@@ -16,15 +16,11 @@ const meta = {
       </div>
     ),
   ],
-  tags: ['autodocs'],
-} satisfies Meta<typeof Highlight>;
+} satisfies Meta<typeof Tour>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// export const Default: Story = {
-//   args: {},
-// };
 
 // Full page example
 export const FullPageExample: Story = {
@@ -36,20 +32,20 @@ export const FullPageExample: Story = {
       onboarding: [
         {
           target: 'header',
-          content: 'This is a highlight',
+          content: 'This is a tour',
         },
         {
           target: '.step-1',
-          content: 'This is a highlight',
+          content: 'This is a tour',
         },
         {
           target: '.hello',
           content:
-            'This is a highlight. This is a highlight. This is a highlight. This is a highlight. This is a highlight',
+            'This is a tour. This is a tour. This is a tour. This is a tour. This is a tour',
         },
         {
           target: '.step-4',
-          content: 'This is a highlight',
+          content: 'This is a tour',
         },
         {
           target: '.finish-paying-btn',
@@ -64,26 +60,26 @@ export const FullPageExample: Story = {
         },
         {
           target: '.footer',
-          content: 'This is a highlight',
+          content: 'This is a tour',
         },
       ],
-      "feature": [
+      feature: [
         {
           target: 'header',
-          content: 'This is a highlight',
+          content: 'This is a tour',
         },
         {
           target: '.step-1',
-          content: 'This is a highlight',
+          content: 'This is a tour',
         },
         {
           target: '.hello',
           content:
-            'This is a highlight. This is a highlight. This is a highlight. This is a highlight. This is a highlight',
+            'This is a tour. This is a tour. This is a tour. This is a tour. This is a tour',
         },
         {
           target: '.step-4',
-          content: 'This is a highlight',
+          content: 'This is a tour',
         },
         {
           target: '.finish-paying-btn',
@@ -98,7 +94,7 @@ export const FullPageExample: Story = {
         },
         {
           target: '.footer',
-          content: 'This is a highlight',
+          content: 'This is a tour',
         },
       ],
     },
@@ -126,7 +122,7 @@ export const FullPageExample: Story = {
           padding: '2rem',
         }}
       >
-        <Highlight stepObj={stepObj} />
+        <Tour stepObj={stepObj} />
         <h2 className="step-1">Step 1</h2>
         <div
           className="hello"

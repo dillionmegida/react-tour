@@ -9,7 +9,7 @@ type Props<T> = {
   | { method: 'set'; value: T }
 );
 
-export default function useLocalStorage<T>(
+export function useLocalStorage<T>(
   props: Props<T>
 ): [T | null, (value: T) => void] {
   const [storedValue, setStoredValue] = useState<T | null>(null);

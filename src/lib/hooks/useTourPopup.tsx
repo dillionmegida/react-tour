@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react';
-import type { Step } from '../../types/Step';
+import type { Step } from '../../types/Tour';
 
-type Args = {
-  currentStep: Step;
-  ref: React.RefObject<HTMLDivElement | null>;
-  onNext: () => void;
-};
 
 function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
@@ -19,7 +14,13 @@ function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
   };
 }
 
-export default function useHighlightPopup({ currentStep, ref, onNext }: Args) {
+type Args = {
+  currentStep: Step;
+  ref: React.RefObject<HTMLDivElement | null>;
+  onNext: () => void;
+};
+
+export function useTourPopup({ currentStep, ref, onNext }: Args) {
   const { target, nextOn } = currentStep || {};
 
   useEffect(() => {

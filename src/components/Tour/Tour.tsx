@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StepObj } from '../../types';
-import './Highlight.scss';
 import TourCategory from './TourCategory';
 import {
   getLocalStorage,
@@ -14,7 +13,7 @@ type Props = {
   stepObj: StepObj;
 };
 
-export default function Highlight({ stepObj }: Props) {
+export function Tour({ stepObj }: Props) {
   const stepCategories: string[] = Object.keys(stepObj);
   const [unfinishedCategories, setUnfinishedCategories] = useState<string[]>(
     []

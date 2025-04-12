@@ -1,9 +1,9 @@
-import useHighlightPopup from '../../lib/hooks/useHighlightPopup';
-import { useLocalStorage } from '../../lib/hooks';
+import { useLocalStorage, useTourPopup } from '../../lib/hooks';
 import { Step } from '../../types';
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { capitalize } from '../../lib/utils';
 import { getActiveStepKey } from '../../lib/constants';
+import './TourCategory.scss';
 
 type Props = {
   steps: Step[];
@@ -33,28 +33,32 @@ export default function TourCategory({ steps, category, onFinish }: Props) {
   };
 
   const ref = useRef<HTMLDivElement>(null);
-  useHighlightPopup({ currentStep, ref, onNext: handleNext });
+  useTourPopup({ currentStep, ref, onNext: handleNext });
 
   if (stepIndex >= steps.length) return null;
 
   return (
     <div
       className={
-        'highlight-wrapper ' +
+        'tour-wrapper ' +
         (currentStepIndex === steps.length - 1 ? 'finished' : '')
       }
     >
-      <div className="step-info">
+      <div className="tour-step-info">
         <span>
           {capitalize(category)} - Step {stepIndex + 1} / {steps.length}
         </span>
       </div>
-      <div className="highlight" ref={ref}></div>
-      <div className="highlight-content">{currentStep.content}</div>
-      <div className="highlight-actions">
+
+      {/* this element allows us to adjust the position of the parent
+      element, which is tour-wrapper */}
+      <div className="tour" ref={ref}></div>
+      
+      <div className="tour-content">{currentStep.content}</div>
+      <div className="tour-actions">
         <button
           className={
-            'highlight-next-btn ' + (currentStep.nextOn ? 'disabled' : '')
+            'tour-next-btn ' + (currentStep.nextOn ? 'disabled' : '')
           }
           disabled={!!currentStep.nextOn}
           onClick={handleNext}

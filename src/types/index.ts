@@ -1,1 +1,1 @@
-export * from './Step';
+export * from './Tour';
