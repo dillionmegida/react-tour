@@ -1,8 +1,9 @@
 import useHighlightPopup from '../../lib/hooks/useHighlightPopup';
 import { useLocalStorage } from '../../lib/hooks';
 import { Step } from '../../types';
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { capitalize } from '../../lib/utils';
+import { getActiveStepKey } from '../../lib/constants';
 
 type Props = {
   steps: Step[];
@@ -10,16 +11,20 @@ type Props = {
   onFinish: () => void;
 };
 
-export default function StepCategory({ steps, category, onFinish }: Props) {
+export default function TourCategory({ steps, category, onFinish }: Props) {
   const [currentStepIndex, setCurrentStepIndex] = useLocalStorage<number>({
     method: 'get',
-    key: category + '-active-step',
+    key: getActiveStepKey(category),
     defaultValue: 0,
   });
 
   const stepIndex = Number(currentStepIndex) || 0;
 
-  if (stepIndex >= steps.length) return null;
+  useEffect(() => {
+    if (stepIndex >= steps.length) {
+      onFinish();
+    }
+  }, [stepIndex, steps.length, onFinish]);
 
   const currentStep = steps[stepIndex];
 
@@ -27,13 +32,10 @@ export default function StepCategory({ steps, category, onFinish }: Props) {
     setCurrentStepIndex(stepIndex + 1);
   };
 
-  if (stepIndex === steps.length - 1) {
-    onFinish();
-  }
-
   const ref = useRef<HTMLDivElement>(null);
-  const nextRef = useRef<HTMLButtonElement>(null);
   useHighlightPopup({ currentStep, ref, onNext: handleNext });
+
+  if (stepIndex >= steps.length) return null;
 
   return (
     <div
@@ -56,7 +58,6 @@ export default function StepCategory({ steps, category, onFinish }: Props) {
           }
           disabled={!!currentStep.nextOn}
           onClick={handleNext}
-          ref={nextRef}
         >
           Next
         </button>

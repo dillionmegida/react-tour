@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StepObj } from '../../types';
 import './Highlight.scss';
-import StepCategory from './Category';
-import { useLocalStorage } from '../../lib/hooks';
+import TourCategory from './TourCategory';
+import {
+  getLocalStorage,
+  setLocalStorage,
+  deleteLocalStorage,
+} from '../../lib/utils';
+import { getActiveStepKey, TOUR_CATEGORIES_STORAGE_KEY } from '../../lib/constants';
+import { CategoryStatusObj } from '../../types';
 
 type Props = {
   stepObj: StepObj;
@@ -10,43 +16,55 @@ type Props = {
 
 export default function Highlight({ stepObj }: Props) {
   const stepCategories: string[] = Object.keys(stepObj);
+  const [unfinishedCategories, setUnfinishedCategories] = useState<string[]>(
+    []
+  );
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
+    0
+  );
 
-  const categoriesStatusInProgressByDefault: {
-    [category: string]: 'finished' | 'in-progress';
-  } = {};
+  const activeCategory =
+    activeCategoryIndex !== null
+      ? unfinishedCategories[activeCategoryIndex]
+      : null;
 
-  for (const category of stepCategories) {
-    categoriesStatusInProgressByDefault[category] = 'in-progress';
-  }
+  useEffect(() => {
+    const categoriesStatus =
+      getLocalStorage<CategoryStatusObj>(TOUR_CATEGORIES_STORAGE_KEY) || {};
+    const unfinishedCategories: string[] = [];
 
-  const [categoriesStatus, setCategoriesStatus] = useLocalStorage<{
-    [category: string]: 'finished' | 'in-progress';
-  }>({
-    method: 'get',
-    key: 'tour-categories',
-    defaultValue: categoriesStatusInProgressByDefault,
-  });
+    for (const category of stepCategories) {
+      if (
+        !categoriesStatus[category] ||
+        categoriesStatus[category] !== 'finished'
+      ) {
+        // then this category is not started
+        categoriesStatus[category] = 'in-progress';
+        unfinishedCategories.push(category);
+      }
+    }
 
-  const unfinishedCategories = categoriesStatus
-    ? stepCategories.filter((category) => {
-        return (
-          !categoriesStatus[category] ||
-          categoriesStatus[category] !== 'finished'
-        );
-      })
-    : stepCategories;
+    setLocalStorage(TOUR_CATEGORIES_STORAGE_KEY, categoriesStatus);
+    setUnfinishedCategories(unfinishedCategories);
+  }, []);
 
-  return unfinishedCategories.map((category) => (
-    <StepCategory
-      onFinish={() => {
-        setCategoriesStatus({
-          ...categoriesStatus,
-          [category]: 'finished',
-        });
-      }}
-      category={category}
-      key={category}
-      steps={stepObj[category]}
+  const onFinishCategory = () => {
+    if (activeCategoryIndex === null || !activeCategory) return;
+
+    const categoriesStatus =
+      getLocalStorage<CategoryStatusObj>(TOUR_CATEGORIES_STORAGE_KEY) || {};
+    categoriesStatus[activeCategory] = 'finished';
+    setLocalStorage(TOUR_CATEGORIES_STORAGE_KEY, categoriesStatus);
+    deleteLocalStorage(getActiveStepKey(activeCategory));
+    setActiveCategoryIndex(activeCategoryIndex + 1);
+  };
+
+  return activeCategory ? (
+    <TourCategory
+      category={activeCategory}
+      key={activeCategory}
+      steps={stepObj[activeCategory]}
+      onFinish={onFinishCategory}
     />
-  ));
+  ) : null;
 }

@@ -47,14 +47,40 @@ export const FullPageExample: Story = {
           content:
             'This is a highlight. This is a highlight. This is a highlight. This is a highlight. This is a highlight',
         },
-        // {
-        //   target: '.step-2',
-        //   content: 'This is a highlight',
-        // },
-        // {
-        //   target: '.step-3',
-        //   content: 'This is a highlight',
-        // },
+        {
+          target: '.step-4',
+          content: 'This is a highlight',
+        },
+        {
+          target: '.finish-paying-btn',
+          content: (
+            <p>
+              When you click this button, your payment will be processed and
+              then we can get back to you with further details on what next to
+              do. <b>Click to proceed.</b>
+            </p>
+          ),
+          nextOn: 'click',
+        },
+        {
+          target: '.footer',
+          content: 'This is a highlight',
+        },
+      ],
+      "feature": [
+        {
+          target: 'header',
+          content: 'This is a highlight',
+        },
+        {
+          target: '.step-1',
+          content: 'This is a highlight',
+        },
+        {
+          target: '.hello',
+          content:
+            'This is a highlight. This is a highlight. This is a highlight. This is a highlight. This is a highlight',
+        },
         {
           target: '.step-4',
           content: 'This is a highlight',

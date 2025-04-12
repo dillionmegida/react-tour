@@ -1,1 +1,1 @@
-export { Step, StepObj } from './Step';
+export * from './Step';

@@ -4,7 +4,7 @@ import type { Step } from '../../types/Step';
 type Args = {
   currentStep: Step;
   ref: React.RefObject<HTMLDivElement | null>;
-  onNext:() => void;
+  onNext: () => void;
 };
 
 function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
@@ -19,10 +19,12 @@ function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
   };
 }
 
-export default function useHighlightPopup({ currentStep, ref , onNext}: Args) {
-  const { target, nextOn } = currentStep;
+export default function useHighlightPopup({ currentStep, ref, onNext }: Args) {
+  const { target, nextOn } = currentStep || {};
 
   useEffect(() => {
+    if (!target) return;
+
     const targetElement: HTMLElement | null = document.querySelector(target);
     if (!targetElement) return;
 
@@ -43,32 +45,18 @@ export default function useHighlightPopup({ currentStep, ref , onNext}: Args) {
 
     ref.current.parentElement!.style.visibility = 'visible';
     ref.current.parentElement!.style.opacity = '1';
-    // ref.current.parentElement!.style.width = `${
-    //   rect.width + OUTLINE_WIDTH * 2 + OUTLINE_OFFSET * 2
-    // }px`;
 
     ref.current.parentElement.style.translate = `${
       rect.left - OUTLINE_OFFSET - OUTLINE_WIDTH
     }px ${rect.bottom + OUTLINE_WIDTH * 2 + 10}px`;
 
-    // targetElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' })
-
-    // ref.current.scrollIntoView();
-    // window.scrollTo({
-    //   top: rect.bottom + OUTLINE_WIDTH * 2 + 10,
-    //   behavior: 'smooth',
-    // });
-
-    // document.body.appendChild(ref.current);
-
     return () => {
       targetElement.style.removeProperty('outline');
       targetElement.style.removeProperty('outline-offset');
-      
+
       if (nextOn) {
         targetElement.removeEventListener(nextOn, onNext);
       }
-      // ref.current!.remove();
     };
-  }, [currentStep.target]);
+  }, [currentStep?.target]);
 }
