@@ -24,13 +24,10 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
   const { target, nextOn } = currentStep || {};
 
   useEffect(() => {
-    if (!target) return;
+    if (!target || !ref.current || !ref.current.parentElement) return;
 
     const targetElement: HTMLElement | null = document.querySelector(target);
     if (!targetElement) return;
-
-    if (!ref.current) return;
-    if (!ref.current.parentElement) return;
 
     if (nextOn) {
       targetElement.addEventListener(nextOn, onNext);
@@ -44,25 +41,24 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
       position: 'relative',
       zIndex: `${TOUR_TARGET_Z_INDEX}`,
       outlineOffset: `${OUTLINE_OFFSET}px`,
-    };
+    } as const;
 
-    for (const [key, value] of Object.entries(defaultStyles)) {
+    Object.entries(defaultStyles).forEach(([key, value]) => {
       targetElement.style[key as keyof typeof defaultStyles] = value;
-    }
+    });
 
     const rect = getBoundingClientRectRelativeToDocument(targetElement);
 
     ref.current.parentElement!.style.visibility = 'visible';
     ref.current.parentElement!.style.opacity = '1';
-
     ref.current.parentElement.style.translate = `${
       rect.left - OUTLINE_OFFSET - OUTLINE_WIDTH
     }px ${rect.bottom + OUTLINE_WIDTH * 2 + 10}px`;
 
     return () => {
-      for (const key of Object.keys(defaultStyles)) {
+      Object.keys(defaultStyles).forEach(key => {
         targetElement.style.removeProperty(key);
-      }
+      });
 
       if (nextOn) {
         targetElement.removeEventListener(nextOn, onNext);

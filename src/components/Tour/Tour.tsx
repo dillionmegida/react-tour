@@ -19,9 +19,13 @@ type Props = {
 };
 
 export function Tour({ stepObj }: Props) {
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(null);
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
+    null
+  );
   const [showTour, setShowTour] = useState(false);
-  const [unfinishedCategories, setUnfinishedCategories] = useState<string[]>([]);
+  const [unfinishedCategories, setUnfinishedCategories] = useState<string[]>(
+    []
+  );
 
   const activeCategory =
     activeCategoryIndex !== null
