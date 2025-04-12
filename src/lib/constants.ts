@@ -4,5 +4,5 @@ export function getActiveStepKey(category: string) {
 }
 
 export const BACKDROP_Z_INDEX = 10;
-export const TOUR_WRAPPER_Z_INDEX = 20;
-export const TOUR_TARGET_Z_INDEX = 30;
+export const TOUR_TARGET_Z_INDEX = 11;
+export const TOUR_WRAPPER_Z_INDEX = 12;

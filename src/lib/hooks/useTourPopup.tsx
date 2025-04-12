@@ -44,7 +44,7 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
       position: 'relative',
       zIndex: `${TOUR_TARGET_Z_INDEX}`,
       outlineOffset: `${OUTLINE_OFFSET}px`,
-    }
+    };
 
     for (const [key, value] of Object.entries(defaultStyles)) {
       targetElement.style[key as keyof typeof defaultStyles] = value;
@@ -60,7 +60,6 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
     }px ${rect.bottom + OUTLINE_WIDTH * 2 + 10}px`;
 
     return () => {
-
       for (const key of Object.keys(defaultStyles)) {
         targetElement.style.removeProperty(key);
       }

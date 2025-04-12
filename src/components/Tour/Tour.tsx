@@ -19,13 +19,9 @@ type Props = {
 };
 
 export function Tour({ stepObj }: Props) {
-  const stepCategories: string[] = Object.keys(stepObj);
-  const [unfinishedCategories, setUnfinishedCategories] = useState<string[]>(
-    []
-  );
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
-    0
-  );
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(null);
+  const [showTour, setShowTour] = useState(false);
+  const [unfinishedCategories, setUnfinishedCategories] = useState<string[]>([]);
 
   const activeCategory =
     activeCategoryIndex !== null
@@ -33,6 +29,17 @@ export function Tour({ stepObj }: Props) {
       : null;
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTour(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!showTour) return;
+
+    const stepCategories: string[] = Object.keys(stepObj);
     const categoriesStatus =
       getLocalStorage<CategoryStatusObj>(TOUR_CATEGORIES_STORAGE_KEY) || {};
     const unfinishedCategories: string[] = [];
@@ -50,7 +57,8 @@ export function Tour({ stepObj }: Props) {
 
     setLocalStorage(TOUR_CATEGORIES_STORAGE_KEY, categoriesStatus);
     setUnfinishedCategories(unfinishedCategories);
-  }, []);
+    setActiveCategoryIndex(0);
+  }, [showTour]);
 
   const onFinishCategory = () => {
     if (activeCategoryIndex === null || !activeCategory) return;
@@ -63,7 +71,7 @@ export function Tour({ stepObj }: Props) {
     setActiveCategoryIndex(activeCategoryIndex + 1);
   };
 
-  return activeCategory ? (
+  return showTour && activeCategory ? (
     <ErrorBoundary readableMessage="Something went wrong with the Tour component">
       <>
         <Backdrop />
