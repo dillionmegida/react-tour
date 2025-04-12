@@ -1,2 +1,1 @@
-export { Tour } from './Tour';
 export { Backdrop } from './Backdrop';

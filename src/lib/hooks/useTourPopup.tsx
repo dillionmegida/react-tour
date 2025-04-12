@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import type { Step } from '../../types/Tour';
-
+import { TOUR_TARGET_Z_INDEX } from '../../lib/constants';
 
 function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
@@ -39,8 +39,16 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
     const OUTLINE_WIDTH = 2;
     const OUTLINE_OFFSET = 6;
 
-    targetElement.style.outline = `${OUTLINE_WIDTH}px solid red`;
-    targetElement.style.outlineOffset = `${OUTLINE_OFFSET}px`;
+    const defaultStyles = {
+      outline: `${OUTLINE_WIDTH}px solid red`,
+      position: 'relative',
+      zIndex: `${TOUR_TARGET_Z_INDEX}`,
+      outlineOffset: `${OUTLINE_OFFSET}px`,
+    }
+
+    for (const [key, value] of Object.entries(defaultStyles)) {
+      targetElement.style[key as keyof typeof defaultStyles] = value;
+    }
 
     const rect = getBoundingClientRectRelativeToDocument(targetElement);
 
@@ -52,8 +60,10 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
     }px ${rect.bottom + OUTLINE_WIDTH * 2 + 10}px`;
 
     return () => {
-      targetElement.style.removeProperty('outline');
-      targetElement.style.removeProperty('outline-offset');
+
+      for (const key of Object.keys(defaultStyles)) {
+        targetElement.style.removeProperty(key);
+      }
 
       if (nextOn) {
         targetElement.removeEventListener(nextOn, onNext);

@@ -8,6 +8,7 @@ import {
 } from '../../lib/utils';
 import { getActiveStepKey, TOUR_CATEGORIES_STORAGE_KEY } from '../../lib/constants';
 import { CategoryStatusObj } from '../../types';
+import { Backdrop } from '../';
 
 type Props = {
   stepObj: StepObj;
@@ -58,12 +59,17 @@ export function Tour({ stepObj }: Props) {
     setActiveCategoryIndex(activeCategoryIndex + 1);
   };
 
+
   return activeCategory ? (
+    <>
+    <Backdrop />
     <TourCategory
       category={activeCategory}
       key={activeCategory}
       steps={stepObj[activeCategory]}
       onFinish={onFinishCategory}
     />
+    </>
   ) : null;
 }
+

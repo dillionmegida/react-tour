@@ -15,10 +15,18 @@
 .tour-step-info {
   background-color: rgb(222, 222, 222);
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tour-skip-btn {
+  padding: 5px;
+  background-color: lightcoral;
 }
 
 .tour-content {
-  padding: 10px;
+  padding: 5px;
   color: white;
 }
 

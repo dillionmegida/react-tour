@@ -3,3 +3,5 @@ node_modules
 # Vite
 .vite
 dist
+
+.DS_Store
