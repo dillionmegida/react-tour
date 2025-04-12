@@ -5,3 +5,5 @@ export type Step = {
   content: ReactNode
   nextOn?: 'click'
 }
+
+export type StepObj = {[id: string]: Step[]}

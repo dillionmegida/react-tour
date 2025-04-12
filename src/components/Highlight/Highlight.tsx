@@ -1,57 +1,46 @@
-import React, { useState, useRef } from 'react';
-import useHighlightPopup from '../../hooks/useHighlightPopup';
-import { Step } from '../../types/Step';
+import React from 'react';
+import { StepObj } from '../../types';
 import './Highlight.scss';
+import StepCategory from './Category';
+import { useLocalStorage } from '../../lib/hooks';
 
 type Props = {
-  steps: Step[];
-  onFinish: () => void;
+  stepObj: StepObj;
 };
 
-export default function Highlight({ steps, onFinish }: Props) {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+export default function Highlight({ stepObj }: Props) {
+  const stepCategories: string[] = Object.keys(stepObj);
 
-  if (currentStepIndex >= steps.length) return null;
+  const [categoriesStatus, setCategoriesStatus] = useLocalStorage<
+    { [category: string]: 'finished' | 'in-progress' }
+  >({
+    method: 'get',
+    key: 'tour-categories',
+    value: {},
+    defaultValue: stepCategories.map((acc, category) => ({
+      ...acc,
+      [category]: 'in-progress',
+    }), {}),
+  });
 
-  const currentStep = steps[currentStepIndex];
 
-  const handleNext = () => {
-    setCurrentStepIndex((prev) => prev + 1);
-    if (currentStepIndex === steps.length - 1) {
-      onFinish();
-    }
-  };
+  const unfinishedCategories = categoriesStatus
+    ? stepCategories.filter((category) => {
+        return !categoriesStatus[category] || categoriesStatus[category] !== 'finished';
+      })
+    : stepCategories;
 
-  const ref = useRef<HTMLDivElement>(null);
-  const nextRef = useRef<HTMLButtonElement>(null);
-  useHighlightPopup({ currentStep, ref, onNext: handleNext });
-
-  return (
-    <div
-      className={
-        'highlight-wrapper ' +
-        (currentStepIndex === steps.length - 1 ? 'finished' : '')
-      }
-    >
-      <div className="step-info">
-        <span>
-          Step {currentStepIndex + 1} / {steps.length}
-        </span>
-      </div>
-      <div className="highlight" ref={ref}></div>
-      <div className="highlight-content">{currentStep.content}</div>
-      <div className="highlight-actions">
-        <button
-          className={
-            'highlight-next-btn ' + (currentStep.nextOn ? 'disabled' : '')
-          }
-          disabled={!!currentStep.nextOn}
-          onClick={handleNext}
-          ref={nextRef}
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  );
+  return unfinishedCategories.map((category) => (
+    <StepCategory
+      onFinish={() => {
+        setCategoriesStatus((prev) => ({
+          ...prev,
+          [category]: 'finished',
+        }));
+      }}
+      category={category}
+      key={category}
+      steps={stepObj[category]}
+    />
+  ));
 }

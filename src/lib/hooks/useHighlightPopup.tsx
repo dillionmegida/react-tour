@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import type { Step } from '../types/Step';
+import type { Step } from '../../types/Step';
 
 type Args = {
   currentStep: Step;

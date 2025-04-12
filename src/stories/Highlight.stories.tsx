@@ -32,50 +32,52 @@ export const FullPageExample: Story = {
     layout: 'fullscreen',
   },
   args: {
-    steps: [
-      {
-        target: 'header',
-        content: 'This is a highlight',
-      },
-      {
-        target: '.step-1',
-        content: 'This is a highlight',
-      },
-      {
-        target: '.hello',
-        content:
-          'This is a highlight. This is a highlight. This is a highlight. This is a highlight. This is a highlight',
-      },
-      // {
-      //   target: '.step-2',
-      //   content: 'This is a highlight',
-      // },
-      // {
-      //   target: '.step-3',
-      //   content: 'This is a highlight',
-      // },
-      {
-        target: '.step-4',
-        content: 'This is a highlight',
-      },
-      {
-        target: '.finish-paying-btn',
-        content: (
-          <p>
-            When you click this button, your payment will be processed and then
-            we can get back to you with further details on what next to do. <b>Click to proceed.</b>
-          </p>
-        ),
-        nextOn: 'click',
-      },
-      {
-        target: '.footer',
-        content: 'This is a highlight',
-      },
-    ],
-    onFinish: () => {},
+    stepObj: {
+      onboarding: [
+        {
+          target: 'header',
+          content: 'This is a highlight',
+        },
+        {
+          target: '.step-1',
+          content: 'This is a highlight',
+        },
+        {
+          target: '.hello',
+          content:
+            'This is a highlight. This is a highlight. This is a highlight. This is a highlight. This is a highlight',
+        },
+        // {
+        //   target: '.step-2',
+        //   content: 'This is a highlight',
+        // },
+        // {
+        //   target: '.step-3',
+        //   content: 'This is a highlight',
+        // },
+        {
+          target: '.step-4',
+          content: 'This is a highlight',
+        },
+        {
+          target: '.finish-paying-btn',
+          content: (
+            <p>
+              When you click this button, your payment will be processed and
+              then we can get back to you with further details on what next to
+              do. <b>Click to proceed.</b>
+            </p>
+          ),
+          nextOn: 'click',
+        },
+        {
+          target: '.footer',
+          content: 'This is a highlight',
+        },
+      ],
+    },
   },
-  render: ({ steps, onFinish }) => (
+  render: ({ stepObj }) => (
     <div
       style={{
         minHeight: '100vh',
@@ -98,7 +100,7 @@ export const FullPageExample: Story = {
           padding: '2rem',
         }}
       >
-        <Highlight onFinish={onFinish} steps={steps} />
+        <Highlight stepObj={stepObj} />
         <h2 className="step-1">Step 1</h2>
         <div
           className="hello"
