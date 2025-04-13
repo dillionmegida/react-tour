@@ -1,9 +1,12 @@
+@use '../../lib/variables';
+
 .tour-wrapper {
   visibility: hidden;
   position: absolute;
   background-color: gray;
   height: auto;
   top: 0;
+  z-index: variables.$tour-wrapper-z-index;
   left: 0;
   transition: translate 300ms ease, opacity 300ms ease, width 300ms ease;
   opacity: 0;
@@ -26,7 +29,7 @@
 }
 
 .tour-content {
-  padding: 5px;
+  padding: 10px;
   color: white;
 }
 
@@ -42,4 +45,14 @@
 .tour-next-btn {
   padding: 5px;
   background-color: lightgreen;
+}
+
+
+.tour-target {
+  outline-width: variables.$outline-width;
+  outline-color: red;
+  outline-style: solid;
+  position: relative;
+  z-index: variables.$backdrop-z-index;
+  outline-offset: variables.$outline-offset;
 }

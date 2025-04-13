@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import type { Step } from '../../types/TourType';
-import { TOUR_TARGET_Z_INDEX } from '../../lib/constants';
 
 function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
@@ -50,19 +49,11 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
       }
     }
 
+    targetElement.classList.add('tour-target');
+
+    // TODO: figure out how to extract this from ../../lib/variables.scss
     const OUTLINE_WIDTH = 2;
     const OUTLINE_OFFSET = 6;
-
-    const defaultStyles = {
-      outline: `${OUTLINE_WIDTH}px solid red`,
-      position: 'relative',
-      zIndex: `${TOUR_TARGET_Z_INDEX}`,
-      outlineOffset: `${OUTLINE_OFFSET}px`,
-    } as const;
-
-    Object.entries(defaultStyles).forEach(([key, value]) => {
-      targetElement.style[key as keyof typeof defaultStyles] = value;
-    });
 
     const rect = getBoundingClientRectRelativeToDocument(targetElement);
 
@@ -79,11 +70,7 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
     });
 
     return () => {
-      Object.keys(defaultStyles).forEach((key) => {
-        // not using targetElement.removeProperty(key) because it
-        // doesn't capture camelCase properties like zIndex
-        targetElement.style[key as keyof typeof defaultStyles] = '';
-      });
+      targetElement.classList.remove('tour-target');
 
       if (nextOn) {
         if (typeof nextOn === 'string') {

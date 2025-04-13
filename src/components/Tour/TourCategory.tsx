@@ -4,7 +4,6 @@ import { useRef, useEffect } from 'react';
 import { capitalize } from '../../lib/utils';
 import { getActiveStepKey } from '../../lib/constants';
 import './TourCategory.scss';
-import { TOUR_WRAPPER_Z_INDEX } from '../../lib/constants';
 
 type Props = {
   steps: Step[];
@@ -44,7 +43,6 @@ export default function TourCategory({ steps, category, onFinish }: Props) {
         'tour-wrapper ' +
         (currentStepIndex === steps.length - 1 ? 'finished' : '')
       }
-      style={{ zIndex: TOUR_WRAPPER_Z_INDEX }}
     >
       <div className="tour-step-info">
         <span>
