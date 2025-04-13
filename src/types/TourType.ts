@@ -3,7 +3,10 @@ import { ReactNode } from "react"
 export type Step = {
   target: string,
   content: ReactNode
-  nextOn?: 'click'
+  nextOn?: string | {
+    event: string,
+    target: string
+  }
 }
 
 export type CategoryStatus = 'finished' | 'in-progress';
