@@ -1,3 +1,4 @@
 export { Tour } from './Tour';
-export { Backdrop } from './Backdrop';
-export { ErrorBoundary } from './ErrorBoundary';
+export { Backdrop } from './internal/Backdrop';
+export { ErrorBoundary } from './internal/ErrorBoundary';
+export { ErrorDisplay } from './internal/ErrorDisplay';

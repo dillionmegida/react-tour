@@ -57,7 +57,7 @@ export const FullPageExample: Story = {
           ),
           nextOn: {
             event: 'click',
-            target: '.finish-paying-btns',
+            target: '.finish-paying-btn',
           },
         },
         {
