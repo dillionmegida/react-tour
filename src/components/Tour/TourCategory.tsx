@@ -34,7 +34,7 @@ export default function TourCategory({ steps, category, onFinish }: Props) {
   };
 
   const ref = useRef<HTMLDivElement>(null);
-  useTourPopup({ currentStep, ref, onNext: handleNext });
+  useTourPopup({ currentStep, ref, category, onNext: handleNext });
 
   if (stepIndex >= steps.length) return null;
 

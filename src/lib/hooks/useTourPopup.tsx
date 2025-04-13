@@ -17,17 +17,20 @@ function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
 type Args = {
   currentStep: Step;
   ref: React.RefObject<HTMLDivElement | null>;
-  onNext: () => void;
+  onNext: () => void; 
+  category: string;
 };
 
-export function useTourPopup({ currentStep, ref, onNext }: Args) {
+export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
   const { target, nextOn } = currentStep || {};
 
   useEffect(() => {
     if (!target || !ref.current || !ref.current.parentElement) return;
 
     const targetElement: HTMLElement | null = document.querySelector(target);
-    if (!targetElement) return;
+    if (!targetElement) {
+      throw new Error(`Target <b>${target}</b> not found for current step in category '${category}'.`);
+    };
 
     if (nextOn) {
       if (typeof nextOn === 'string') {
@@ -38,7 +41,9 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
         if (nextTarget) {
           nextTarget.addEventListener(event, onNext);
         } else {
-          throw new Error(`Target ${target} not found for current step`);
+          throw new Error(
+            `nextOn target <b>${target}</b> not found for current step in category '${category}'.`
+          );
         }
       }
     }
@@ -66,7 +71,7 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
     }px ${rect.bottom + OUTLINE_WIDTH * 2 + 10}px`;
 
     return () => {
-      Object.keys(defaultStyles).forEach(key => {
+      Object.keys(defaultStyles).forEach((key) => {
         // not using targetElement.removeProperty(key) because it
         // doesn't capture camelCase properties like zIndex
         targetElement.style[key as keyof typeof defaultStyles] = '';
