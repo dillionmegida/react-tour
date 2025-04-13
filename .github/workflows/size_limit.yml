@@ -1,6 +1,15 @@
 name: Size limit
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.ts'
+      - 'tsconfig.json'
+      - 'tsconfig.node.json'
+      - '.size-limit.js'
 
 jobs:
   size:
