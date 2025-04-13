@@ -8,3 +8,4 @@
   - The styles
   - Add positions top, left, right
     - Add position auto, which figures out the best position, based on the target element, and window size
+- When user zooms in or resizes window, the tour should be repositioned
