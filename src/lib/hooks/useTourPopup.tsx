@@ -57,8 +57,8 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
 
     const rect = getBoundingClientRectRelativeToDocument(targetElement);
 
-    ref.current.parentElement!.style.visibility = 'visible';
-    ref.current.parentElement!.style.opacity = '1';
+    ref.current.parentElement.classList.add('tour-wrapper--visible');
+
     ref.current.parentElement.style.translate = `${
       rect.left - OUTLINE_OFFSET - OUTLINE_WIDTH
     }px ${rect.bottom + OUTLINE_WIDTH * 2 + 10}px`;
