@@ -1,0 +1,1 @@
+Don't use `interface`. Use `type` when working with .ts or .tsx files
