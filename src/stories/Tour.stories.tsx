@@ -55,7 +55,10 @@ export const FullPageExample: Story = {
               do. <b>Click to proceed.</b>
             </p>
           ),
-          nextOn: 'click',
+          nextOn: {
+            event: 'click',
+            target: '.finish-paying-btns',
+          },
         },
         {
           target: '.footer',

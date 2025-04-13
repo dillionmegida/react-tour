@@ -60,15 +60,19 @@ export default function TourCategory({ steps, category, onFinish }: Props) {
       <div className="tour" ref={ref}></div>
 
       <div className="tour-content">{currentStep.content}</div>
-      <div className="tour-actions">
-        <button
-          className={'tour-next-btn ' + (currentStep.nextOn ? 'disabled' : '')}
-          disabled={!!currentStep.nextOn}
-          onClick={handleNext}
-        >
-          Next
-        </button>
-      </div>
+
+      {/* if nextOn is not defined, then show the next button */}
+      {!currentStep.nextOn && (
+        <div className="tour-actions">
+          <button
+            className={'tour-next-btn ' + (currentStep.nextOn ? 'disabled' : '')}
+            disabled={!!currentStep.nextOn}
+            onClick={handleNext}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

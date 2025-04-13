@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import type { Step } from '../../types/Tour';
+import type { Step } from '../../types/TourType';
 import { TOUR_TARGET_Z_INDEX } from '../../lib/constants';
 
 function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
@@ -30,7 +30,17 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
     if (!targetElement) return;
 
     if (nextOn) {
-      targetElement.addEventListener(nextOn, onNext);
+      if (typeof nextOn === 'string') {
+        targetElement.addEventListener(nextOn, onNext);
+      } else {
+        const { event, target } = nextOn;
+        const nextTarget = document.querySelector(target);
+        if (nextTarget) {
+          nextTarget.addEventListener(event, onNext);
+        } else {
+          throw new Error(`Target ${target} not found for current step`);
+        }
+      }
     }
 
     const OUTLINE_WIDTH = 2;
@@ -63,7 +73,15 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
       });
 
       if (nextOn) {
-        targetElement.removeEventListener(nextOn, onNext);
+        if (typeof nextOn === 'string') {
+          targetElement.removeEventListener(nextOn, onNext);
+        } else {
+          const { event, target } = nextOn;
+          const nextTarget = document.querySelector(target);
+          if (nextTarget) {
+            nextTarget.removeEventListener(event, onNext);
+          }
+        }
       }
     };
   }, [currentStep?.target]);
