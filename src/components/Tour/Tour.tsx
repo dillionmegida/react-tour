@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StepObj } from '../../types';
-import TourCategory from './TourCategory';
+import { TourCategory } from './TourCategory';
 import {
   getLocalStorage,
   setLocalStorage,
@@ -11,8 +11,7 @@ import {
   TOUR_CATEGORIES_STORAGE_KEY,
 } from '../../lib/constants';
 import { CategoryStatusObj } from '../../types';
-import { Backdrop } from '../';
-import { ErrorBoundary } from '../';
+import { Backdrop, CustomErrorBoundary } from '../';
 
 type Props = {
   stepObj: StepObj;
@@ -76,16 +75,14 @@ export function Tour({ stepObj }: Props) {
   };
 
   return showTour && activeCategory ? (
-    <ErrorBoundary readableMessage="Something went wrong with the Tour component">
-      <>
-        <Backdrop />
-        <TourCategory
-          category={activeCategory}
-          key={activeCategory}
-          steps={stepObj[activeCategory]}
-          onFinish={onFinishCategory}
-        />
-      </>
-    </ErrorBoundary>
+    <CustomErrorBoundary title="Something went wrong with the Tour component">
+      <Backdrop />
+      <TourCategory
+        category={activeCategory}
+        key={activeCategory}
+        steps={stepObj[activeCategory]}
+        onFinish={onFinishCategory}
+      />
+    </CustomErrorBoundary>
   ) : null;
 }

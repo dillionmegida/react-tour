@@ -3,8 +3,7 @@ import { ErrorDisplay } from '../..';
 
 interface Props {
   children: ReactNode;
-  readableMessage: string;
-  fallback?: ReactNode;
+  title: string;
 }
 
 interface State {
@@ -13,7 +12,7 @@ interface State {
   showError: boolean;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
+export class CustomErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
     showError: false,
@@ -37,18 +36,14 @@ export class ErrorBoundary extends Component<Props, State> {
 
     if (this.state.hasError && this.state.showError) {
       return (
-        this.props.fallback || (
-          <ErrorDisplay
-            message={this.state.error?.message || ''}
-            title={this.props.readableMessage}
-            onClose={this.handleClose}
-          />
-        )
+        <ErrorDisplay
+          message={this.state.error?.message || ''}
+          title={this.props.title}
+          onClose={this.handleClose}
+        />
       );
     }
 
     return this.props.children;
   }
 }
-
-export default ErrorBoundary;
