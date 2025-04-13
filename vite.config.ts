@@ -7,29 +7,35 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      exclude: ['**/*.test.ts', '**/*.spec.ts', '**/*.stories.tsx']
-    })
+      exclude: [
+        '**/*.test.ts',
+        '**/*.spec.ts',
+        '**/*.stories.tsx',
+        '**/*.test.tsx',
+        'src/setupTests.ts',
+      ],
+    }),
   ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`
+      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
     },
     minify: 'terser',
     terserOptions: {
       format: {
-        comments: false
-      }
+        comments: false,
+      },
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'React',
-          'react-dom': 'ReactDOM'
-        }
-      }
-    }
-  }
+          'react-dom': 'ReactDOM',
+        },
+      },
+    },
+  },
 });
