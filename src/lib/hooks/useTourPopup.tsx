@@ -17,7 +17,7 @@ function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
 type Args = {
   currentStep: Step;
   ref: React.RefObject<HTMLDivElement | null>;
-  onNext: () => void; 
+  onNext: () => void;
   category: string;
 };
 
@@ -29,8 +29,10 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
 
     const targetElement: HTMLElement | null = document.querySelector(target);
     if (!targetElement) {
-      throw new Error(`Target <b>${target}</b> not found for current step in category '${category}'.`);
-    };
+      throw new Error(
+        `Target <b>${target}</b> not found for current step in category '${category}'.`
+      );
+    }
 
     if (nextOn) {
       if (typeof nextOn === 'string') {
@@ -69,6 +71,12 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
     ref.current.parentElement.style.translate = `${
       rect.left - OUTLINE_OFFSET - OUTLINE_WIDTH
     }px ${rect.bottom + OUTLINE_WIDTH * 2 + 10}px`;
+
+    // TODO: if the position of the tour is "top", scroll the tour element into view
+    window.scrollTo({
+      behavior: 'smooth',
+      top: rect.top - 100,
+    });
 
     return () => {
       Object.keys(defaultStyles).forEach((key) => {
