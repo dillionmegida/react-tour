@@ -11,7 +11,7 @@ type Props = {
   onFinish: () => void;
 };
 
-export default function TourCategory({ steps, category, onFinish }: Props) {
+export function TourCategory({ steps, category, onFinish }: Props) {
   const [currentStepIndex, setCurrentStepIndex] = useLocalStorage<number>({
     method: 'get',
     key: getActiveStepKey(category),
