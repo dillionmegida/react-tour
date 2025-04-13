@@ -6,7 +6,9 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   plugins: [
     react(),
-    dts({ include: ['src'] })
+    dts({
+      exclude: ['**/*.test.ts', '**/*.spec.ts', '**/*.stories.tsx']
+    })
   ],
   build: {
     lib: {
@@ -17,9 +19,8 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       format: {
-        comments: false,
-        ecma: 2020,
-      },
+        comments: false
+      }
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
@@ -27,8 +28,7 @@ export default defineConfig({
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM'
-        },
-        compact: true
+        }
       }
     }
   }
