@@ -57,7 +57,9 @@ export function useTourPopup({ currentStep, ref, onNext }: Args) {
 
     return () => {
       Object.keys(defaultStyles).forEach(key => {
-        targetElement.style.removeProperty(key);
+        // not using targetElement.removeProperty(key) because it
+        // doesn't capture camelCase properties like zIndex
+        targetElement.style[key as keyof typeof defaultStyles] = '';
       });
 
       if (nextOn) {
