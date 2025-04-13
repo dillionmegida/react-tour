@@ -1,6 +1,6 @@
 @use '../../lib/variables';
 
-.tour-wrapper {
+.tour__wrapper {
   visibility: hidden;
   position: absolute;
   background-color: gray;
@@ -15,12 +15,12 @@
   width: 100%;
 }
 
-.tour-wrapper--visible {
+.tour__wrapper--visible {
   visibility: visible;
   opacity: 1;
 }
 
-.tour-step-info {
+.tour__step-info {
   background-color: rgb(222, 222, 222);
   padding: 10px;
   display: flex;
@@ -28,17 +28,17 @@
   align-items: center;
 }
 
-.tour-skip-btn {
+.tour__skip-btn {
   padding: 5px;
   background-color: lightcoral;
 }
 
-.tour-content {
+.tour__content {
   padding: 10px;
   color: white;
 }
 
-.tour-actions {
+.tour__actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
@@ -47,13 +47,12 @@
   background-color: rgb(61, 61, 61);
 }
 
-.tour-next-btn {
+.tour__next-btn {
   padding: 5px;
   background-color: lightgreen;
 }
 
-
-.tour-target {
+.tour__target {
   outline-width: variables.$outline-width;
   outline-color: red;
   outline-style: solid;

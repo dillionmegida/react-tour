@@ -40,15 +40,15 @@ export default function TourCategory({ steps, category, onFinish }: Props) {
   return (
     <div
       className={
-        'tour-wrapper ' +
+        'tour__wrapper ' +
         (currentStepIndex === steps.length - 1 ? 'finished' : '')
       }
     >
-      <div className="tour-step-info">
+      <div className="tour__step-info">
         <span>
           {capitalize(category)} - Step {stepIndex + 1} / {steps.length}
         </span>
-        <button className="tour-skip-btn" onClick={onFinish}>
+        <button className="tour__skip-btn" onClick={onFinish}>
           Skip
         </button>
       </div>
@@ -57,13 +57,13 @@ export default function TourCategory({ steps, category, onFinish }: Props) {
       element, which is tour-wrapper */}
       <div className="tour" ref={ref}></div>
 
-      <div className="tour-content">{currentStep.content}</div>
+      <div className="tour__content">{currentStep.content}</div>
 
       {/* if nextOn is not defined, then show the next button */}
       {!currentStep.nextOn && (
-        <div className="tour-actions">
+        <div className="tour__actions">
           <button
-            className={'tour-next-btn ' + (currentStep.nextOn ? 'disabled' : '')}
+            className={'tour__next-btn'}
             disabled={!!currentStep.nextOn}
             onClick={handleNext}
           >

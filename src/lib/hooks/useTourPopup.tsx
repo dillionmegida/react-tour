@@ -49,7 +49,7 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
       }
     }
 
-    targetElement.classList.add('tour-target');
+    targetElement.classList.add('tour__target');
 
     // TODO: figure out how to extract this from ../../lib/variables.scss
     const OUTLINE_WIDTH = 2;
@@ -57,7 +57,7 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
 
     const rect = getBoundingClientRectRelativeToDocument(targetElement);
 
-    ref.current.parentElement.classList.add('tour-wrapper--visible');
+    ref.current.parentElement.classList.add('tour__wrapper--visible');
 
     ref.current.parentElement.style.translate = `${
       rect.left - OUTLINE_OFFSET - OUTLINE_WIDTH
@@ -70,7 +70,7 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
     });
 
     return () => {
-      targetElement.classList.remove('tour-target');
+      targetElement.classList.remove('tour__target');
 
       if (nextOn) {
         if (typeof nextOn === 'string') {
