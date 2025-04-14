@@ -51,22 +51,9 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
 
     targetElement.classList.add('tour__target');
 
-    // TODO: figure out how to extract this from ../../lib/variables.scss
-    const OUTLINE_WIDTH = 2;
-    const OUTLINE_OFFSET = 6;
-
-    const rect = getBoundingClientRectRelativeToDocument(targetElement);
-
-    ref.current.parentElement.classList.add('tour__wrapper--visible');
-
-    ref.current.parentElement.style.translate = `${
-      rect.left - OUTLINE_OFFSET - OUTLINE_WIDTH
-    }px ${rect.bottom + OUTLINE_WIDTH * 2 + 10}px`;
-
-    // TODO: if the position of the tour is "top", scroll the tour element into view
-    window.scrollTo({
-      behavior: 'smooth',
-      top: rect.top - 100,
+    adjustTourPosition(ref.current.parentElement, targetElement);
+    window.addEventListener('resize', () => {
+      adjustTourPosition(ref.current?.parentElement, targetElement);
     });
 
     return () => {
@@ -83,6 +70,50 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
           }
         }
       }
+
+      window.removeEventListener('resize', () => {
+        adjustTourPosition(ref.current?.parentElement, targetElement);
+      });
     };
   }, [currentStep?.target]);
+}
+
+function adjustTourPosition(
+  tourElement: HTMLElement | null | undefined,
+  targetElement: HTMLElement | null | undefined
+) {
+  if (!tourElement || !tourElement.parentElement || !targetElement) return;
+
+  // TODO: figure out how to extract this from ../../lib/variables.scss
+  const OUTLINE_WIDTH = 2;
+  const OUTLINE_OFFSET = 6;
+
+  const targetElementClientRect =
+    getBoundingClientRectRelativeToDocument(targetElement);
+
+  const tourElemClientRect =
+    getBoundingClientRectRelativeToDocument(tourElement);
+
+  // distance from left of the window, so that the right edge of
+  // the tour element is at the right edge of the target element
+  const distanceFromLeft =
+    targetElementClientRect.right -
+    tourElemClientRect.width +
+    OUTLINE_WIDTH +
+    OUTLINE_OFFSET;
+
+  // distance from top of the window, so that the tour element
+  // shows below the target element
+  const distanceFromTop =
+    targetElementClientRect.bottom + OUTLINE_WIDTH * 2 + 10;
+
+  tourElement.style.translate = `${distanceFromLeft}px ${distanceFromTop}px`;
+
+  tourElement.classList.add('tour__wrapper--visible');
+
+  // TODO: if the position of the tour is "top", scroll the tour element into view
+  window.scrollTo({
+    behavior: 'smooth',
+    top: targetElementClientRect.top - 100,
+  });
 }

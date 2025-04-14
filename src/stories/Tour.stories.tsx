@@ -127,18 +127,64 @@ export const FullPageExample: Story = {
         <Tour stepObj={stepObj} />
         <h2 className="step-1">Step 1</h2>
         <div
-          className="hello"
           style={{
-            width: '200px',
-            height: '200px',
-            overflow: 'hidden',
-            backgroundColor: 'green',
+            display: 'flex',
+            gap: '20px',
           }}
         >
-          <img
-            style={{ width: '100%', objectFit: 'cover' }}
-            src="https://dillionmegida.com/img/deee.png"
-          />
+          <div
+            style={{
+              width: '200px',
+              height: '200px',
+              overflow: 'hidden',
+              backgroundColor: 'green',
+            }}
+          >
+            <img
+              style={{ width: '100%', objectFit: 'cover' }}
+              src="https://dillionmegida.com/img/deee.png"
+            />
+          </div>
+          <div
+            style={{
+              width: '200px',
+              height: '200px',
+              overflow: 'hidden',
+              backgroundColor: 'green',
+            }}
+          >
+            <img
+              style={{ width: '100%', objectFit: 'cover' }}
+              src="https://dillionmegida.com/img/deee.png"
+            />
+          </div>
+          <div
+            style={{
+              width: '200px',
+              height: '200px',
+              overflow: 'hidden',
+              backgroundColor: 'green',
+            }}
+          >
+            <img
+              style={{ width: '100%', objectFit: 'cover' }}
+              src="https://dillionmegida.com/img/deee.png"
+            />
+          </div>
+          <div
+            className="hello"
+            style={{
+              width: '200px',
+              height: '200px',
+              overflow: 'hidden',
+              backgroundColor: 'green',
+            }}
+          >
+            <img
+              style={{ width: '100%', objectFit: 'cover' }}
+              src="https://dillionmegida.com/img/deee.png"
+            />
+          </div>
         </div>
         <h2 className="step-2">Step 2</h2>
         <h2 className="step-3">Step 3</h2>
