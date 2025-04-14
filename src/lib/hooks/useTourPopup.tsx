@@ -42,9 +42,10 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
     targetElement.classList.add('tour__target');
 
     adjustTourPosition(ref.current.parentElement, targetElement);
-    
+
     const debouncedAdjust = debounce(adjustTourPosition, 100);
-    const handleResize = () => debouncedAdjust(ref.current?.parentElement, targetElement);
+    const handleResize = () =>
+      debouncedAdjust(ref.current?.parentElement, targetElement);
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -77,11 +78,12 @@ function adjustTourPosition(
   const tourRect = getBoundingClientRectRelativeToDocument(tourElement);
 
   // TODO: Extract from CSS variables
-  const OUTLINE_WIDTH = 2; 
+  const OUTLINE_WIDTH = 2;
   const OUTLINE_OFFSET = 6;
 
   requestAnimationFrame(() => {
-    const distanceFromLeft = targetRect.right - tourRect.width + OUTLINE_WIDTH + OUTLINE_OFFSET;
+    const distanceFromLeft =
+      targetRect.right - tourRect.width + OUTLINE_WIDTH + OUTLINE_OFFSET;
     const distanceFromTop = targetRect.bottom + OUTLINE_WIDTH * 2 + 10;
 
     tourElement.classList.add('tour__wrapper--visible');

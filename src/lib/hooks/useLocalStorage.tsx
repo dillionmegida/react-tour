@@ -4,10 +4,7 @@ import { getLocalStorage, setLocalStorage } from '../../lib/utils';
 type Props<T> = {
   key: string;
   defaultValue: T;
-} & (
-  | { method: 'get' }
-  | { method: 'set'; value: T }
-);
+} & ({ method: 'get' } | { method: 'set'; value: T });
 
 export function useLocalStorage<T>(
   props: Props<T>
@@ -18,11 +15,11 @@ export function useLocalStorage<T>(
     setStoredValue(value);
     setLocalStorage(props.key, value);
   };
-  
+
   useEffect(() => {
     if (props.method === 'get') {
       const value = getLocalStorage<T>(props.key);
-      
+
       if (!value) {
         setValue(props.defaultValue);
       } else {

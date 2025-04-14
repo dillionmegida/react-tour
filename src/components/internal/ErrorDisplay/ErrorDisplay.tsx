@@ -6,7 +6,11 @@ type ErrorDisplayProps = {
   onClose: () => void;
 };
 
-export function ErrorDisplay({ message, title = 'Error', onClose }: ErrorDisplayProps) {
+export function ErrorDisplay({
+  message,
+  title = 'Error',
+  onClose,
+}: ErrorDisplayProps) {
   return (
     <div className="error-display">
       <button
