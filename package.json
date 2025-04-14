@@ -12,6 +12,8 @@
     "test": "NODE_ENV=development jest",
     "test:watch": "NODE_ENV=development jest --watchAll",
     "test:coverage": "NODE_ENV=development jest --coverage",
+    "prepare": "husky install",
+    "prettier": "prettier --write src",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "vite build",
@@ -19,6 +21,14 @@
     "size": "npm run build && size-limit",
     "prepublishOnly": "npm run build",
     "publish:npm": "npm publish --access public"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,css,scss,json,jsx,ts,tsx}": "prettier --write"
   },
   "keywords": [],
   "author": "Dillion Megida",
@@ -39,10 +49,12 @@
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
+    "husky": "^9.1.7",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-styled-components": "^7.2.0",
+    "lint-staged": "^15.5.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
