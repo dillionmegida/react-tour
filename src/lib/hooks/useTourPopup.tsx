@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import type { Step } from '../../types/TourType';
+import type { Step } from '../../types';
+import { debounce } from '../utils';
 
 function getBoundingClientRectRelativeToDocument(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
@@ -52,9 +53,10 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
     targetElement.classList.add('tour__target');
 
     adjustTourPosition(ref.current.parentElement, targetElement);
-    window.addEventListener('resize', () => {
-      adjustTourPosition(ref.current?.parentElement, targetElement);
-    });
+    
+    const debouncedAdjust = debounce(adjustTourPosition, 100);
+    const handleResize = () => debouncedAdjust(ref.current?.parentElement, targetElement);
+    window.addEventListener('resize', handleResize);
 
     return () => {
       targetElement.classList.remove('tour__target');
@@ -71,9 +73,7 @@ export function useTourPopup({ currentStep, ref, onNext, category }: Args) {
         }
       }
 
-      window.removeEventListener('resize', () => {
-        adjustTourPosition(ref.current?.parentElement, targetElement);
-      });
+      window.removeEventListener('resize', handleResize);
     };
   }, [currentStep?.target]);
 }
@@ -82,38 +82,25 @@ function adjustTourPosition(
   tourElement: HTMLElement | null | undefined,
   targetElement: HTMLElement | null | undefined
 ) {
-  if (!tourElement || !tourElement.parentElement || !targetElement) return;
+  if (!tourElement || !targetElement) return;
 
-  // TODO: figure out how to extract this from ../../lib/variables.scss
-  const OUTLINE_WIDTH = 2;
+  const targetRect = getBoundingClientRectRelativeToDocument(targetElement);
+  const tourRect = getBoundingClientRectRelativeToDocument(tourElement);
+
+  // TODO: Extract from CSS variables
+  const OUTLINE_WIDTH = 2; 
   const OUTLINE_OFFSET = 6;
 
-  const targetElementClientRect =
-    getBoundingClientRectRelativeToDocument(targetElement);
+  requestAnimationFrame(() => {
+    const distanceFromLeft = targetRect.right - tourRect.width + OUTLINE_WIDTH + OUTLINE_OFFSET;
+    const distanceFromTop = targetRect.bottom + OUTLINE_WIDTH * 2 + 10;
 
-  const tourElemClientRect =
-    getBoundingClientRectRelativeToDocument(tourElement);
+    tourElement.classList.add('tour__wrapper--visible');
+    tourElement.style.translate = `${distanceFromLeft}px ${distanceFromTop}px`;
 
-  // distance from left of the window, so that the right edge of
-  // the tour element is at the right edge of the target element
-  const distanceFromLeft =
-    targetElementClientRect.right -
-    tourElemClientRect.width +
-    OUTLINE_WIDTH +
-    OUTLINE_OFFSET;
-
-  // distance from top of the window, so that the tour element
-  // shows below the target element
-  const distanceFromTop =
-    targetElementClientRect.bottom + OUTLINE_WIDTH * 2 + 10;
-
-  tourElement.style.translate = `${distanceFromLeft}px ${distanceFromTop}px`;
-
-  tourElement.classList.add('tour__wrapper--visible');
-
-  // TODO: if the position of the tour is "top", scroll the tour element into view
-  window.scrollTo({
-    behavior: 'smooth',
-    top: targetElementClientRect.top - 100,
+    window.scrollTo({
+      behavior: 'smooth',
+      top: targetRect.top - 100,
+    });
   });
 }
