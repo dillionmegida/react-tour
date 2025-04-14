@@ -82,12 +82,28 @@ function adjustTourPosition(
   const OUTLINE_OFFSET = 6;
 
   requestAnimationFrame(() => {
-    const distanceFromLeft =
+    // if the target is very close to the left edge of the screen
+    // then we need to move the tour to the right so it doesn't clip
+    const DEFAULT_LEFT_DISTANCE = OUTLINE_WIDTH + OUTLINE_OFFSET;
+    const PREFFERED_LEFT_DISTANCE =
       targetRect.right - tourRect.width + OUTLINE_WIDTH + OUTLINE_OFFSET;
-    const distanceFromTop = targetRect.bottom + OUTLINE_WIDTH * 2 + 10;
+
+    const DEFAULT_TOP_DISTANCE = targetRect.bottom + OUTLINE_WIDTH * 2 + 10;
+
+    const distance: { left: number; top: number } = {
+      left: 0,
+      top: DEFAULT_TOP_DISTANCE,
+    };
+
+    if (DEFAULT_LEFT_DISTANCE > PREFFERED_LEFT_DISTANCE) {
+      tourElement.style.width = `95%`;
+      distance.left = DEFAULT_LEFT_DISTANCE;
+    } else {
+      distance.left = PREFFERED_LEFT_DISTANCE;
+    }
 
     tourElement.classList.add('tour__wrapper--visible');
-    tourElement.style.translate = `${distanceFromLeft}px ${distanceFromTop}px`;
+    tourElement.style.translate = `${distance.left}px ${distance.top}px`;
 
     window.scrollTo({
       behavior: 'smooth',
