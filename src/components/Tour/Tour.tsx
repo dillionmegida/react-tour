@@ -15,9 +15,10 @@ import { Backdrop, CustomErrorBoundary } from '../';
 
 type Props = {
   stepObj: StepObj;
+  delayToShow?: number;
 };
 
-export function Tour({ stepObj }: Props) {
+export function Tour({ stepObj, delayToShow = 0 }: Props) {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
     null
   );
@@ -34,7 +35,7 @@ export function Tour({ stepObj }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowTour(true);
-    }, 2000);
+    }, delayToShow);
 
     return () => clearTimeout(timer);
   }, []);

@@ -27,6 +27,7 @@ export const FullPageExample: Story = {
     layout: 'fullscreen',
   },
   args: {
+    delayToShow: 2000,
     stepObj: {
       onboarding: [
         {
@@ -101,7 +102,7 @@ export const FullPageExample: Story = {
       ],
     },
   },
-  render: ({ stepObj }) => (
+  render: (props) => (
     <div
       style={{
         minHeight: '100vh',
@@ -124,7 +125,7 @@ export const FullPageExample: Story = {
           padding: '2rem',
         }}
       >
-        <Tour stepObj={stepObj} />
+        <Tour {...props} />
         <h2 className="step-1">Step 1</h2>
         <div
           style={{
