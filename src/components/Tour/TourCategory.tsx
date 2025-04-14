@@ -3,6 +3,7 @@ import { Step } from '../../types';
 import { useRef, useEffect } from 'react';
 import { capitalize } from '../../lib/utils';
 import { getActiveStepKey } from '../../lib/constants';
+import { useTranslation } from 'react-i18next';
 import './TourCategory.scss';
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export function TourCategory({ steps, category, onFinish }: Props) {
+  const { t } = useTranslation();
   const [currentStepIndex, setCurrentStepIndex] = useLocalStorage<number>({
     method: 'get',
     key: getActiveStepKey(category),
@@ -46,10 +48,10 @@ export function TourCategory({ steps, category, onFinish }: Props) {
     >
       <div className="tour__step-info">
         <span>
-          {capitalize(category)} - Step {stepIndex + 1} / {steps.length}
+          {capitalize(category)} - {t('step')} {stepIndex + 1} / {steps.length}
         </span>
         <button className="tour__skip-btn" onClick={onFinish}>
-          Skip
+          {t('skip')}
         </button>
       </div>
 
@@ -67,7 +69,7 @@ export function TourCategory({ steps, category, onFinish }: Props) {
             disabled={!!currentStep.nextOn}
             onClick={handleNext}
           >
-            Next
+            {t('next')}
           </button>
         </div>
       )}

@@ -27,7 +27,7 @@ export const FullPageExample: Story = {
     layout: 'fullscreen',
   },
   args: {
-    delayToShow: 2000,
+    delayToShow: 0,
     stepObj: {
       onboarding: [
         {
