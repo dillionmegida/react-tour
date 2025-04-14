@@ -68,28 +68,30 @@ describe('TourCategory', () => {
   it('renders the first step content', () => {
     render(<TourCategory {...mockPropsAllWithNextOn} />);
 
-    expect(screen.getByText('Test - Step 1 / 2')).toBeInTheDocument();
+    // TODO: pass translations to this component, so that you can use
+    // Step instead of step (the translation keys) for the test to passes
+    expect(screen.getByText('Test - step 1 / 2')).toBeInTheDocument();
     expect(screen.getByText('First step content')).toBeInTheDocument();
-    expect(screen.getByText('Skip')).toBeInTheDocument();
+    expect(screen.getByText('skip')).toBeInTheDocument();
   });
 
   it('shows next button when nextOn is not defined', () => {
     // Test with first step (no nextOn)
     render(<TourCategory {...mockPropsAllWithoutNextOn} />);
 
-    expect(screen.getByText('Next')).toBeInTheDocument();
+    expect(screen.getByText('next')).toBeInTheDocument();
   });
 
   it('hides next button when nextOn is defined', () => {
     render(<TourCategory {...mockPropsAllWithNextOn} />);
-    expect(screen.queryByText('Next')).not.toBeInTheDocument();
+    expect(screen.queryByText('next')).not.toBeInTheDocument();
   });
 
   it('calls onFinish when skip button is clicked', async () => {
     const user = userEvent.setup();
     render(<TourCategory {...mockPropsAllWithNextOn} />);
 
-    await user.click(screen.getByText('Skip'));
+    await user.click(screen.getByText('skip'));
     expect(mockPropsAllWithNextOn.onFinish).toHaveBeenCalled();
   });
 });
