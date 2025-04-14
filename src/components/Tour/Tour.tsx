@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { I18nextProvider } from 'react-i18next';
 import { StepObj } from '../../types';
 import { TourCategory } from './TourCategory';
 import {
@@ -13,7 +12,6 @@ import {
 } from '../../lib/constants';
 import { CategoryStatusObj } from '../../types';
 import { Backdrop, CustomErrorBoundary } from '../';
-import { i18n } from '../../i18n';
 
 type Props = {
   stepObj: StepObj;
@@ -80,14 +78,12 @@ export function Tour({ stepObj, delayToShow = 0 }: Props) {
   return showTour && activeCategory ? (
     <CustomErrorBoundary title="Something went wrong with the Tour component">
       <Backdrop />
-      <I18nextProvider i18n={i18n}>
-        <TourCategory
-          category={activeCategory}
-          key={activeCategory}
-          steps={stepObj[activeCategory]}
-          onFinish={onFinishCategory}
-        />
-      </I18nextProvider>
+      <TourCategory
+        category={activeCategory}
+        key={activeCategory}
+        steps={stepObj[activeCategory]}
+        onFinish={onFinishCategory}
+      />
     </CustomErrorBoundary>
   ) : null;
 }
