@@ -2,6 +2,22 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tour } from '..';
 import './stories-global.css';
+import en from '../translations/en/common.json';
+import fr from '../translations/fr/common.json';
+import i18n from 'i18next';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
+
+i18n.use(initReactI18next).init({
+  resources: {
+    en: { translation: en },
+    fr: { translation: fr },
+  },
+  lng: 'fr',
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 const meta = {
   title: 'Components/Tour',
@@ -125,7 +141,9 @@ export const FullPageExample: Story = {
           padding: '2rem',
         }}
       >
-        <Tour {...props} />
+        <I18nextProvider i18n={i18n}>
+          <Tour {...props} />
+        </I18nextProvider>
         <h2 className="step-1">Step 1</h2>
         <div
           style={{
