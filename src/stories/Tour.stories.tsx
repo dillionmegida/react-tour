@@ -2,22 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tour } from '..';
 import './stories-global.css';
-import en from '../translations/en/common.json';
-import fr from '../translations/fr/common.json';
-import i18n from 'i18next';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
-
-i18n.use(initReactI18next).init({
-  resources: {
-    en: { translation: en },
-    fr: { translation: fr },
-  },
-  lng: 'fr',
-  fallbackLng: 'en',
-  interpolation: {
-    escapeValue: false,
-  },
-});
+import { LazyI18nProvider } from '../lib/i18n';
 
 const meta = {
   title: 'Components/Tour',
@@ -124,6 +109,8 @@ export const FullPageExample: Story = {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
+        maxWidth: '800px',
+        margin: '0 auto',
       }}
     >
       <header
@@ -141,9 +128,9 @@ export const FullPageExample: Story = {
           padding: '2rem',
         }}
       >
-        <I18nextProvider i18n={i18n}>
+        <LazyI18nProvider>
           <Tour {...props} />
-        </I18nextProvider>
+        </LazyI18nProvider>
         <h2 className="step-1">Step 1</h2>
         <div
           style={{
