@@ -12,6 +12,7 @@ import {
 } from '../../lib/constants';
 import { CategoryStatusObj } from '../../types';
 import { Backdrop, CustomErrorBoundary } from '../';
+import { LazyI18nProvider } from '../../lib/i18n';
 
 type Props = {
   stepObj: StepObj;
@@ -78,12 +79,14 @@ export function Tour({ stepObj, delayToShow = 0 }: Props) {
   return showTour && activeCategory ? (
     <CustomErrorBoundary title="Something went wrong with the Tour component">
       <Backdrop />
-      <TourCategory
-        category={activeCategory}
-        key={activeCategory}
-        steps={stepObj[activeCategory]}
-        onFinish={onFinishCategory}
-      />
+      <LazyI18nProvider>
+        <TourCategory
+          category={activeCategory}
+          key={activeCategory}
+          steps={stepObj[activeCategory]}
+          onFinish={onFinishCategory}
+        />
+      </LazyI18nProvider>
     </CustomErrorBoundary>
   ) : null;
 }

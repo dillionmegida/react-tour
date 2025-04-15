@@ -22,30 +22,31 @@ describe('Tour Component', () => {
     ],
   };
 
-  test('shows after specified delay', () => {
-    const TIME_TO_DELAY = 1000
+  test('shows after specified delay', async () => {
+    const TIME_TO_DELAY = 1000;
     render(<Tour stepObj={mockSteps} delayToShow={TIME_TO_DELAY} />);
-    
+
     // Initially not visible
     expect(screen.queryByText('This is step 1')).not.toBeInTheDocument();
-    
-    // Fast-forward time
+
+    act(() => {
+      // Fast-forward time
+      jest.advanceTimersByTime(TIME_TO_DELAY);
+    });
+
+    // awaiting because of suspended component
+    expect(await screen.findByText('This is step 1')).toBeInTheDocument();
+  });
+
+  test('shows immediately when no delay is specified', async () => {
+    const TIME_TO_DELAY = 0;
+    render(<Tour stepObj={mockSteps} delayToShow={TIME_TO_DELAY} />);
+
     act(() => {
       jest.advanceTimersByTime(TIME_TO_DELAY);
     });
-    
-    // Should now be visible
-    expect(screen.getByText('This is step 1')).toBeInTheDocument();
-  });
 
-  test('shows immediately when no delay is specified', () => {
-    const TIME_TO_DELAY = 0
-    render(<Tour stepObj={mockSteps} delayToShow={TIME_TO_DELAY} />);
-
-    act(() => {
-      jest.advanceTimersByTime(TIME_TO_DELAY);
-    })
-    
-    expect(screen.getByText('This is step 1')).toBeInTheDocument();
+    // awaiting because of suspended component
+    expect(await screen.findByText('This is step 1')).toBeInTheDocument();
   });
 });
